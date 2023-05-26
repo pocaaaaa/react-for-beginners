@@ -7,8 +7,17 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
+    /*
+      [핵심]
+      const [item, modifier] = React.useState(기본값);
+        -> useSate가 Array도 제공
+        -> 첫 번째 Item은 데이터를 의미
+        -> 두 번짼는 modifier 함수
+        => modifier 함수를 실행하면 이 모든 컴포넌트드이 다시 렌더링됨. 
+    */
+
     const root = document.getElementById("root");
-    const App = () => {
+    const MinutesToHours = () => {
       const [amount, setAmount] = React.useState(0);
       const [inverted, setInverted] = React.useState(false);
       const onChange = (event) => {
@@ -21,7 +30,6 @@
       };
       return (
         <div>
-          <h3>Super Converter</h3>
           <div>
             <label htmlFor="minutes">Minutes</label>
             <input 
@@ -46,6 +54,31 @@
           </div>
           <button onClick={reset}>Reset</button>
           <button onClick={onInvert}>{inverted ? "Turn back" : "Invert"}</button>
+        </div>
+      )
+    };
+    const KmToMiles = () => {
+      return (
+        <h3>KM 2 M</h3>
+      );
+    };
+    const App = () => {
+      const [index, setIndex] = React.useState("xx");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+      return (
+        <div>
+          <h3>Super Converter</h3>
+          <select value={index} onChange={onSelect}>
+            <option value="xx">Select your units</option>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Km & Miles</option>
+          </select>
+          <hr/>
+          {index === "xx" ? "Please select your units": null}
+          {index === "0" ? <MinutesToHours/> : null}
+          {index === "1" ? <KmToMiles/> : null}
         </div>
       )
     };
