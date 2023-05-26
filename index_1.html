@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    
+    // JSX version
+    function Title() {
+      return (
+        <h3 id="title" onMouseEnter={() => console.log(`mouse enter`)}>
+          Hello, I'm a Span
+        </h3>
+      );
+    }
+
+    // React version
+    const h3 = React.createElement("h3", {
+      id: "title",
+      onMouseEnter: () => console.log(`mouse enter`),
+    }, "Hello, I'm a Span");
+
+    // JSX version
+    const Button = () => (
+      <button 
+        style={{ backgroundColor: "tomato"}} 
+        onClick={() => console.log(`im clicked`)}
+      >
+        Click me
+      </button>
+    );
+
+    // React version
+    const btn = React.createElement("button", {
+      onClick: () => console.log(`im clicked`),
+      style: {
+        backgroundColor: "tomato"
+      }
+    }, "Click me");
+
+    // JSX version
+    // [중요] 컴포넌트의 첫 글자는 반드시 대문자여야 함 => Title, Button
+    // 소문자면 React랑 JSX는 이게 HTML button 태그라고 생각할 것임. 
+    const Container = () => (
+      <div>
+        <Title/>
+        <Button/>
+      </div>
+    );
+
+    // React version
+    const container = React.createElement("div", null, [Title, Button])
+    
+    // Html Render
+    ReactDOM.render(<Container/>, root);
+  </script>
+</html>
