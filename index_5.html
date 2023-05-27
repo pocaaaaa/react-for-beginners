@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.8.1/index.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // props(Object)는 첫 번째이자 유일한 인자.
+    // const Btn = (props)
+    // const Btn = ({text}) : shortchut. property를 오브젝트로부터 꺼내는 것.
+    // const Btn = ({text, big}) : props 안에 key 가 2개 일때. 
+
+    // button onClick event 가 발생하면 App() 의 changeValue가 호출됨.
+    // changeValue가 호출되면 setValue 가 호출되고
+    // 데이터를 수정하는 함수가 불려졌기 때문에 리렌더링됨.
+    // => 부모 컴포넌트가 state(상태) 변경이 발생. 리렌더링.
+    const Btn = ({text, changeValue, fontSize}) => {
+      console.log(text, "was rendered");
+      return (
+        <button
+          onClick={changeValue} 
+          style={{
+            backgroundColor: "tomato",
+            color: "white",
+            pdding: "10px 20px",
+            border: 0,
+            borderRadius: 10,
+            fontSize: fontSize ? fontSize : 16
+          }}
+        >
+          {text}
+        </button>
+        );
+    };
+
+    // React.memo : 컴포넌트를 다시 그릴지 결정. 변경된 사항이 없으면 랜더링 되지 않도록.
+    const MemorizedBtn = React.memo(Btn);
+
+    const App = () => {
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Revert Changes");
+      return (
+        <div>
+            <MemorizedBtn text={value} changeValue={changeValue} fontSize={18}/>
+            <MemorizedBtn text="Continue" />
+        </div>
+      )
+    };
+    const root = document.getElementById("root");
+    ReactDOM.render(<App/>, root);
+  </script>
+</html>
